@@ -1,0 +1,28 @@
+version: '3'
+services:
+  postdb:
+    image: "postgres"
+    environment: 
+      - POSTGRES_PASSWORD=postpass
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d/
+
+  ebms:
+    image: ebms-admin-kvt
+    depends_on:
+      - postdb
+    environment:
+      - keystores_type=AZURE
+      - azure_keyvault_uri=https://xxxxx.vault.azure.net/
+      - azure_keyvault_tennantid=xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx
+      - azure_keyvault_clientid=uri://xxxxx
+      - azure_keyvault_client_secret=xxxxx
+      - client_keystore_defaultAlias=name in keyvault
+      - keystore_defaultAlias=name in keyvault
+      - ebms_jdbc_url=jdbc:postgresql://postdb:5432/postgres
+      - ebms_jdbc_username=postgres
+      - ebms_jdbc_password=postpass
+      - https_verifyhostnames=false
+    ports:
+      - 8087:8080
+      - 8088:8088
