@@ -1,6 +1,6 @@
 FROM openjdk:8-jre-alpine
 
-ENV VERSION=2.17.7-M8
+ENV VERSION=2.18.1-SNAPSHOT
 LABEL version=nl.clockwork.ebms.admin.version=$EBMS_VERSION
 
 ENV EBMSPATH /ebms
@@ -21,6 +21,7 @@ COPY log4j2.xml ${EBMSPATH}
 COPY *.properties ${EBMSPATH}
 COPY start.sh ${EBMSPATH}
 COPY truststore.p12 ${EBMSPATH}/certs
+COPY azkeyvault-export-*.jar ${EBMSPATH}
 
 RUN chmod a+x start.sh
 
